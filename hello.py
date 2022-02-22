@@ -16,6 +16,7 @@ font = pygame.font.SysFont('monospace', 32)
 text = font.render('Welcome to Pygame', True, (0, 255, 0))
 text_rect = text.get_rect()
 text_rect.center = window.center
+print(screen.get_width(), screen.get_height())
 
 def start():
     while True:
