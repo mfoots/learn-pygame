@@ -1,12 +1,9 @@
 import pygame
 pygame.init()
 
-WIDTH = 500
-HEIGHT = 500
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen_size = (500, 500)
+bg="#8dfafc"
+screen = pygame.display.set_mode(screen_size)
 
 running = True
 while running:
@@ -15,7 +12,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill(WHITE)
+    screen.fill(bg)
 
     pygame.display.flip()
 
