@@ -7,6 +7,9 @@ screen = pygame.display.set_mode((800,600))
 # screen = pygame.display.set_mode((800,600), pygame.NOFRAME)
 window = screen.get_rect()
 
+# create a Clock object
+clock = pygame.time.Clock()
+
 # create a Rect object outside the Game Loop
 player = pygame.Rect(0, 0, 50, 50)
 # change the initial location of the Rect object
@@ -16,22 +19,19 @@ player.center = (window.centerx, window.centery)
 vec = pygame.Vector2(1,0)
 # vec = pygame.Vector2(1,2)
 
-# create a Clock object
-clock = pygame.time.Clock()
-
 # the game loop
-running = True
-while running:
-    clock.tick(120)
+while True:
+    
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                quit()
 
     player.move_ip(vec)
 
     if player.left > window.width:
-        player.left = 0
+        player.right = 0
     # if player.top > window.height:
     #     player.bottom = 0
 
@@ -48,7 +48,6 @@ while running:
     screen.fill('black')
 
     pygame.draw.rect(screen, 'green', player)
-    pygame.display.flip()
+    pygame.display.update()
 
-# game loop ended
-pygame.quit()
+    clock.tick(120)

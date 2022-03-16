@@ -5,16 +5,15 @@ pygame.init()
 screen = pygame.display.set_mode((500, 500))
 window = screen.get_rect()
 
-myfont = pygame.font.Font(None, 60)
-textsurface = myfont.render('Hello world!', False, (0, 255, 0))
-textrect = textsurface.get_rect(center=window.center)
 
-running = True
-while running:
+
+
+while True:
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                quit()
 
     screen.fill('lightblue')
 
@@ -35,9 +34,6 @@ while running:
     # draw a polygon
     points = ((300, 300), (450, 450), (375, 300))
     pygame.draw.polygon(screen, 'purple', points)
-
-    # draw text on the surface
-    screen.blit(textsurface, textrect)
 
     pygame.display.flip()
 
