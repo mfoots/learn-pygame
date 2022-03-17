@@ -16,7 +16,7 @@ player = pygame.Rect(0, 0, 50, 50)
 player.center = (window.centerx, window.centery)
 
 # create a 2D Vecotor object with delta x and delta y
-vec = pygame.Vector2(1,0)
+vec = pygame.Vector2(5,0)
 # vec = pygame.Vector2(1,2)
 
 # the game loop

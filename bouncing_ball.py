@@ -10,7 +10,7 @@ RED = 255, 0, 0
 BLUE = 0, 0, 255
 
 pygame.init()
-screen = pygame.display.set_mode(SCREEN_SIZE)
+screen = pygame.display.set_mode((400, 400))
 screen_rect = screen.get_rect()
 pygame.display.set_caption("Boucing Ball")
 clock = pygame.time.Clock()
@@ -22,10 +22,9 @@ y_velocity = 3
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit(0)
-            quit()
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                quit()
 
     screen.fill(BLACK)
 

@@ -26,11 +26,12 @@ clock = pygame.time.Clock()
 
 running = True
 while running:
-    clock.tick(60)
+    
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                quit()
     
     # Rect objects have a built-in move method
     # ball = ball.move(speed) # returns a new Rect object in new location
@@ -45,6 +46,7 @@ while running:
     screen.fill('white')
     screen.blit(beach_img, beach_rect)
     screen.blit(ball_img, ball)
-    pygame.display.flip()
+    pygame.display.update()
 
-pygame.quit()
+    clock.tick(60)
+
