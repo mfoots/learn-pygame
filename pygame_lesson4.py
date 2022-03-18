@@ -7,6 +7,10 @@ screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
 
+def end_game():
+    pygame.quit()
+    quit()
+
 class Laser(pygame.sprite.Sprite):
     def __init__(self, parent):
         super().__init__()
@@ -44,9 +48,7 @@ all_sprites.add(player1)
 
 laser_sprites = pygame.sprite.RenderUpdates()
 
-def end_game():
-    pygame.quit()
-    quit()
+
 
 while True:
 
@@ -74,9 +76,9 @@ while True:
     
     all_sprites.update()
 
+
     screen.fill('black')
     all_sprites.draw(screen)
-
     pygame.display.update()
     clock.tick(60)
     
