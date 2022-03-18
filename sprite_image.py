@@ -8,7 +8,7 @@ window = screen.get_rect()
 class Ship(pygame.sprite.Sprite):
     def __init__(self):
         super(Ship, self).__init__()
-        self.image = pygame.image.load('media/fighter.png')
+        self.image = pygame.image.load('assets/bsg-ship.png').convert_alpha()
         self.rect = self.image.get_rect(center=window.center)
 
 # Create Sprite Objects
