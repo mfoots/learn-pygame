@@ -10,8 +10,7 @@ def game_over():
     pygame.quit()
     quit()
 
-pygame.display.set_caption('PONG')
-screen = pygame.display.set_mode((640, 480), pygame.NOFRAME)
+screen = pygame.display.set_mode((800,600), pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
 SIZE = window.width*0.05
@@ -41,7 +40,7 @@ class Ball(pygame.sprite.Sprite):
     def update(self):
         self.rect.move_ip(self.vector)
 
-        if self.rect.top <= 0:
+        if self.rect.top <= 2:
             self.vector.y = -self.vector.y
             ping.play()
 
