@@ -8,7 +8,6 @@ SKY_COLOR = (0, 120, 200)
 PLAYER_COLOR = (200, 0, 50)
 GROUND_COLOR = (0, 200, 60)
 GROUND_HEIGHT = 80
-PLATFORM_COLOR = (200, 120, 0)
 
 screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
 window = screen.get_rect()
@@ -51,11 +50,6 @@ class Player(pygame.sprite.Sprite):
         '''move the sprite then check for collitions'''
         self.move()
         
-        for platform in pygame.sprite.spritecollide(self, platforms, False):
-            if platform.rect.collidepoint(self.rect.midtop):
-                self.position.y += 2
-                self.velocity.y = 0
-
         hits = pygame.sprite.spritecollide(self, obstacles, False)
         if self.velocity.y > 0:
             if hits:
@@ -78,19 +72,12 @@ class Platform(pygame.sprite.Sprite):
         
 all_sprites = pygame.sprite.RenderUpdates()
 obstacles = pygame.sprite.RenderUpdates()
-platforms = pygame.sprite.RenderUpdates()
 
-player1 = Player(PLAYER_COLOR, window.centerx, window.bottom - window.height*0.3, 25, 25)
+player1 = Player(PLAYER_COLOR, window.centerx, window.centery, 50, 50)
 player1.add(all_sprites)
 ground = Platform(GROUND_COLOR, 0, window.height - GROUND_HEIGHT, window.width, GROUND_HEIGHT)
 ground.add(all_sprites, obstacles)
 
-platform1 = Platform(PLATFORM_COLOR, 200, window.height - 200, 100, 20)
-platform2 = Platform(PLATFORM_COLOR, 400, window.height - 300, 100, 20)
-platform3 = Platform(PLATFORM_COLOR, 250, window.height - 400, 100, 20)
-platform1.add(all_sprites, obstacles, platforms)
-platform2.add(all_sprites, obstacles, platforms)
-platform3.add(all_sprites, obstacles, platforms)
 
 while True:
     for event in pygame.event.get():
