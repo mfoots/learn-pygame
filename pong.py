@@ -130,8 +130,6 @@ computer.add(all_sprites, paddles)
 player = Player(window.right - 5, window.centery)
 player.add(all_sprites, paddles)
 
-
-
 ball = Ball()
 ball.add(all_sprites)
 
