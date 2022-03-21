@@ -34,7 +34,7 @@ class Ball(pygame.sprite.Sprite):
 
 
     def set(self):
-        return pygame.Vector2(random.randint(3,5), random.randint(6,8))
+        return pygame.Vector2(random.randint(3,5), random.choice([random.randint(6,8),random.randint(-8,-6)]))
 
     def update(self):
         self.rect.move_ip(self.vector)
@@ -62,6 +62,7 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, paddles, False):
             pong.play()
             self.vector = -self.vector
+            self.vector.y = random.choice([self.vector.y, -self.vector.y])
             self.vector = self.vector * 1.1
 
 
@@ -128,6 +129,8 @@ computer.add(all_sprites, paddles)
 
 player = Player(window.right - 5, window.centery)
 player.add(all_sprites, paddles)
+
+
 
 ball = Ball()
 ball.add(all_sprites)
