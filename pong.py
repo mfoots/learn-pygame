@@ -13,7 +13,6 @@ def game_over():
 screen = pygame.display.set_mode((800,600), pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
-SIZE = window.width*0.05
 ping = pygame.mixer.Sound(os.path.join('assets', 'pong_high.wav'))
 pong = pygame.mixer.Sound(os.path.join('assets', 'pong_low.wav'))
 oops = pygame.mixer.Sound(os.path.join('assets', 'ohno.wav'))
@@ -25,11 +24,11 @@ paddles = pygame.sprite.Group()
 class Ball(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((SIZE, SIZE))
+        self.image = pygame.Surface((20, 20))
         self.image.fill(BACKGROUND)
         self.image.set_colorkey(BACKGROUND)
         self.rect = self.image.get_rect()
-        pygame.draw.circle(self.image, FOREGROUND, self.rect.center, SIZE*0.4)
+        pygame.draw.circle(self.image, FOREGROUND, self.rect.center, 10)
         self.rect.center = window.center
         self.vector = self.set()
 
@@ -69,7 +68,7 @@ class Ball(pygame.sprite.Sprite):
 class Paddle(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.Surface((SIZE*0.4, SIZE*3))
+        self.image = pygame.Surface((10, 100))
         self.image.fill(BACKGROUND)
         self.image.set_colorkey(BACKGROUND)
         self.rect = self.image.get_rect(center=(x,y))
