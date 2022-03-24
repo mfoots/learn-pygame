@@ -4,9 +4,9 @@ pygame.init()
 FPS = 60
 FRICTION = -0.12
 ACCELERATION_RATE = 0.6
-SKY_COLOR = (100, 200, 240)
+SKY_COLOR = (0, 255, 255)
 PLAYER_COLOR = (255, 0, 0)
-GROUND_COLOR = (0, 180, 60)
+GROUND_COLOR = (0, 255, 0)
 PLATFORM_COLOR = (255, 255, 0)
 
 screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
