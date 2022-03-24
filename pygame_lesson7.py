@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.midbottom = self.position
                 
 
-class Platform(pygame.sprite.Sprite):
+class Obstacle(pygame.sprite.Sprite):
     def __init__(self, color, x, y, width, height):
         super().__init__()
         self.image = pygame.Surface([width, height])
@@ -75,8 +75,12 @@ obstacles = pygame.sprite.RenderUpdates()
 
 player1 = Player(PLAYER_COLOR, window.centerx, window.centery, 50, 50)
 player1.add(all_sprites)
-ground = Platform(GROUND_COLOR, 0, window.height - GROUND_HEIGHT, window.width, GROUND_HEIGHT)
+
+ground = Obstacle(GROUND_COLOR, 0, window.height - GROUND_HEIGHT, window.width, GROUND_HEIGHT)
 ground.add(all_sprites, obstacles)
+
+platform = Obstacle((200, 200, 0), window.width - 250, window.height - 200, 150, 30)
+platform.add(all_sprites, obstacles)
 
 
 while True:
