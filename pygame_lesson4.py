@@ -3,7 +3,7 @@ import os
 
 pygame.init()
 
-screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
+screen = pygame.display.set_mode((640, 480), pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
 
