@@ -4,10 +4,10 @@ pygame.init()
 FPS = 60
 FRICTION = -0.12
 ACCELERATION_RATE = 0.6
-SKY_COLOR = (0, 120, 200)
-PLAYER_COLOR = (200, 0, 50)
-GROUND_COLOR = (0, 200, 60)
-GROUND_HEIGHT = 80
+SKY_COLOR = (100, 200, 240)
+PLAYER_COLOR = (255, 0, 0)
+GROUND_COLOR = (0, 180, 60)
+PLATFORM_COLOR = (255, 255, 0)
 
 screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
 window = screen.get_rect()
@@ -56,8 +56,6 @@ class Player(pygame.sprite.Sprite):
                 self.velocity.y = 0
                 self.position.y = hits[0].rect.top + 1
 
-        
-
         self.rect.midbottom = self.position
                 
 
@@ -76,10 +74,10 @@ obstacles = pygame.sprite.RenderUpdates()
 player1 = Player(PLAYER_COLOR, window.centerx, window.centery, 50, 50)
 player1.add(all_sprites)
 
-ground = Obstacle(GROUND_COLOR, 0, window.height - GROUND_HEIGHT, window.width, GROUND_HEIGHT)
+ground = Obstacle(GROUND_COLOR, 0, window.height - 80, window.width, 80)
 ground.add(all_sprites, obstacles)
 
-platform = Obstacle((200, 200, 0), window.width - 250, window.height - 200, 150, 30)
+platform = Obstacle(PLATFORM_COLOR, window.width - 250, window.height - 200, 150, 30)
 platform.add(all_sprites, obstacles)
 
 
