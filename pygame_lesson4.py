@@ -5,6 +5,8 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
+all_sprites = pygame.sprite.RenderUpdates()
+laser_sprites = pygame.sprite.RenderUpdates()
 
 laser_image = pygame.image.load('assets/spaceArt/png/laserRed.png').convert_alpha()
 player_image = pygame.image.load('assets/spaceArt/png/player.png').convert_alpha()
@@ -53,12 +55,7 @@ class Player(pygame.sprite.Sprite):
 
 
 player1 = Player()
-all_sprites = pygame.sprite.RenderUpdates()
 all_sprites.add(player1)
-
-laser_sprites = pygame.sprite.RenderUpdates()
-
-
 
 while True:
 
