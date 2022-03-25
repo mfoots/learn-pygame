@@ -12,6 +12,8 @@ ACCELERATION_RATE = 0.6
 screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
+all_sprites = pygame.sprite.RenderUpdates()
+obstacles = pygame.sprite.RenderUpdates()
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, color, x, y, width, height):
@@ -49,12 +51,16 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         '''move the sprite then check for collitions'''
         self.move()
-        
         hits = pygame.sprite.spritecollide(self, obstacles, False)
         if self.velocity.y > 0:
             if hits:
                 self.velocity.y = 0
                 self.position.y = hits[0].rect.top + 1
+
+        hit = pygame.sprite.collide_rect(self, platform)
+        if hit and self.velocity.y < 0:
+            self.velocity.y = 0
+            self.position.y = platform.rect.bottom + 2
 
         self.rect.midbottom = self.position
                 
@@ -68,8 +74,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         
-all_sprites = pygame.sprite.RenderUpdates()
-obstacles = pygame.sprite.RenderUpdates()
+
 
 player1 = Player(PLAYER_COLOR, window.centerx, window.centery, 50, 50)
 player1.add(all_sprites)
