@@ -1,22 +1,16 @@
 import pygame, random, os
 pygame.init()
-# pygame.mouse.set_visible(False)
 
 FPS = 60
 BACKGROUND = (0, 0, 0)
 FOREGROUND = (255, 255, 255)
 
-def game_over():
-    pygame.quit()
-    quit()
-
 screen = pygame.display.set_mode((800,600), pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
-ping = pygame.mixer.Sound(os.path.join('assets', 'pong_high.wav'))
-pong = pygame.mixer.Sound(os.path.join('assets', 'pong_low.wav'))
-oops = pygame.mixer.Sound(os.path.join('assets', 'ohno.wav'))
-
+# ping = pygame.mixer.Sound(os.path.join('assets', 'pong_high.wav'))
+# pong = pygame.mixer.Sound(os.path.join('assets', 'pong_low.wav'))
+# oops = pygame.mixer.Sound(os.path.join('assets', 'ohno.wav'))
 
 all_sprites = pygame.sprite.Group()
 paddles = pygame.sprite.Group()
@@ -32,7 +26,6 @@ class Ball(pygame.sprite.Sprite):
         self.rect.center = window.center
         self.vector = self.set()
 
-
     def set(self):
         return pygame.Vector2(random.randint(3,5), random.choice([random.randint(6,8),random.randint(-8,-6)]))
 
@@ -41,30 +34,29 @@ class Ball(pygame.sprite.Sprite):
 
         if self.rect.top <= 2:
             self.vector.y = -self.vector.y
-            ping.play()
+            # ping.play()
 
         if self.rect.y >= window.height - self.rect.height :
             self.vector.y = -self.vector.y
-            ping.play()
+            # ping.play()
 
         if self.rect.left < 0:
             self.rect.center = window.center
             self.vector = self.set()
             player.score.increase(1)
-            oops.play()
+            # oops.play()
 
         if self.rect.right > window.right:
             self.rect.center = window.center
             self.vector = self.set()
             computer.score.increase(1)
-            oops.play()
+            # oops.play()
 
         if pygame.sprite.spritecollide(self, paddles, False):
-            pong.play()
             self.vector = -self.vector
             self.vector.y = random.choice([self.vector.y, -self.vector.y])
             self.vector = self.vector * 1.1
-
+            # pong.play()
 
 class Paddle(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -80,7 +72,6 @@ class Paddle(pygame.sprite.Sprite):
                 self.rect.top = 0
         if self.rect.bottom >= window.height:
             self.rect.bottom = window.height
-        
 
 class Player(Paddle):
     def __init__(self, x, y):
@@ -105,7 +96,6 @@ class Computer(Paddle):
             if ball.vector.y > 0:
                 self.rect.y += abs(ball.vector.y/2)
         self.check_bounds()
-            
 
 class Scoreboard(pygame.sprite.Sprite):
     def __init__(self, offset):
@@ -123,11 +113,10 @@ class Scoreboard(pygame.sprite.Sprite):
         self.image = self.font.render(f'{self.score}', True, FOREGROUND)
         self.rect = self.image.get_rect(center=(window.width / 2 + self.offset, 50))
 
-
-computer = Computer(window.left + 5, window.centery)
+computer = Computer(window.left + 10, window.centery)
 computer.add(all_sprites, paddles)
 
-player = Player(window.right - 5, window.centery)
+player = Player(window.right - 10, window.centery)
 player.add(all_sprites, paddles)
 
 ball = Ball()
@@ -135,11 +124,9 @@ ball.add(all_sprites)
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game_over()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                game_over()
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            quit()
 
     all_sprites.update()
 
