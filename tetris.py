@@ -1,7 +1,7 @@
 import pygame, random
 pygame.init()
 
-FPS = 60
+FPS = 30
 BLOCK_SIZE = 40
 GRID_SIZE = (BLOCK_SIZE*10, BLOCK_SIZE*20)
 GAME_SIZE = (GRID_SIZE[0] + 300, GRID_SIZE[1] + 1)
@@ -26,18 +26,9 @@ GRID
 12  13  14  15
 
 # Tetrominoes
-# SHAPES = (
-#     ((1, 5, 9, 13), (4, 5, 6, 7)),  # I-block
-#     ((4, 5, 9, 10), (2, 6, 5, 9)),  # Z-block
-#     ((6, 7, 9, 10), (1, 5, 6, 10)), # S-block
-#     ((1, 2, 5, 9), (0, 4, 5, 6), (1, 5, 9, 8), (4, 5, 6, 10)),   # J-block
-#     ((1, 2, 6, 10), (5, 6, 7, 9), (2, 6, 10, 11), (3, 5, 6, 7)), # L-block
-#     ((1, 4, 5, 6), (1, 4, 5, 9), (4, 5, 6, 9), (1, 5, 6, 9)),    # T-block
-#     ((1, 2, 4, 6)), # O-block
-# )
 '''
 
-S = [
+S_SHAPE_TEMPLATE = [
     [
         '.....',
         '.....',
@@ -54,7 +45,7 @@ S = [
     ],
 ]
 
-Z = [
+Z_SHAPE_TEMPLATE = [
     [
         '.....',
         '.....',
@@ -71,7 +62,7 @@ Z = [
     ],
 ]
 
-I = [
+I_SHAPE_TEMPLATE = [
     [
         '..0..',
         '..0..',
@@ -88,7 +79,7 @@ I = [
     ],
 ]
 
-O = [
+O_SHAPE_TEMPLATE = [
         '.....',
         '.....',
         '.00..',
@@ -96,7 +87,7 @@ O = [
         '.....',
     ]
 
-J = [
+J_SHAPE_TEMPLATE = [
     [
         '.....',
         '.0...',
@@ -127,7 +118,7 @@ J = [
     ],
 ]
 
-L = [
+L_SHAPE_TEMPLATE = [
     [
         '.....',
         '...0.',
@@ -158,7 +149,7 @@ L = [
     ],
 ]
 
-T = [
+T_SHAPE_TEMPLATE = [
     [
         '.....',
         '..0..',
@@ -189,7 +180,15 @@ T = [
     ]
 ]
 
-SHAPES = [S, Z, I, O, J, L, T]
+SHAPES = {
+    'S': S_SHAPE_TEMPLATE,
+    'Z': Z_SHAPE_TEMPLATE,
+    'J': J_SHAPE_TEMPLATE,
+    'L': L_SHAPE_TEMPLATE,
+    'I': I_SHAPE_TEMPLATE,
+    'O': O_SHAPE_TEMPLATE,
+    'T': T_SHAPE_TEMPLATE
+}
 
 class Block:
     x = y = n = 0
@@ -201,12 +200,12 @@ class Block:
         self.color = COLORS[SHAPES.index(shape)]
         self.rotation = 0
 
-    def convert_shape(self):
+    def convert_SHAPE_TEMPLATE(self):
         potitions = []
         orientation = self.shape[self.rotation % len(self.shape)]
         
 
-block = Block(5, 0, random.choice(SHAPES))
+# block = Block(5, 0, random.choice(SHAPES))
 
 screen = pygame.display.set_mode(GAME_SIZE, pygame.NOFRAME)
 window = screen.get_rect()
