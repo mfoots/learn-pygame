@@ -18,17 +18,9 @@ COLORS = [
     (255, 213, 0),    # O - Yellow
 ]
 
-'''
-GRID
-0   1   2   3 
-4   5   6   7
-8   9   10  11
-12  13  14  15
-
 # Tetrominoes
-'''
 
-S_SHAPE_TEMPLATE = [
+S = [
     [
         '.....',
         '.....',
@@ -45,7 +37,7 @@ S_SHAPE_TEMPLATE = [
     ],
 ]
 
-Z_SHAPE_TEMPLATE = [
+Z = [
     [
         '.....',
         '.....',
@@ -62,7 +54,7 @@ Z_SHAPE_TEMPLATE = [
     ],
 ]
 
-I_SHAPE_TEMPLATE = [
+I = [
     [
         '..0..',
         '..0..',
@@ -79,7 +71,7 @@ I_SHAPE_TEMPLATE = [
     ],
 ]
 
-O_SHAPE_TEMPLATE = [
+O = [
         '.....',
         '.....',
         '.00..',
@@ -87,7 +79,7 @@ O_SHAPE_TEMPLATE = [
         '.....',
     ]
 
-J_SHAPE_TEMPLATE = [
+J = [
     [
         '.....',
         '.0...',
@@ -118,7 +110,7 @@ J_SHAPE_TEMPLATE = [
     ],
 ]
 
-L_SHAPE_TEMPLATE = [
+L = [
     [
         '.....',
         '...0.',
@@ -149,7 +141,7 @@ L_SHAPE_TEMPLATE = [
     ],
 ]
 
-T_SHAPE_TEMPLATE = [
+T = [
     [
         '.....',
         '..0..',
@@ -180,15 +172,7 @@ T_SHAPE_TEMPLATE = [
     ]
 ]
 
-SHAPES = {
-    'S': S_SHAPE_TEMPLATE,
-    'Z': Z_SHAPE_TEMPLATE,
-    'J': J_SHAPE_TEMPLATE,
-    'L': L_SHAPE_TEMPLATE,
-    'I': I_SHAPE_TEMPLATE,
-    'O': O_SHAPE_TEMPLATE,
-    'T': T_SHAPE_TEMPLATE
-}
+SHAPES = [S, Z, I, O, J, L, T]
 
 class Block:
     x = y = n = 0
@@ -200,12 +184,10 @@ class Block:
         self.color = COLORS[SHAPES.index(shape)]
         self.rotation = 0
 
-    def convert_SHAPE_TEMPLATE(self):
-        potitions = []
-        orientation = self.shape[self.rotation % len(self.shape)]
+    
         
 
-# block = Block(5, 0, random.choice(SHAPES))
+block = Block(5, 0, random.choice(SHAPES))
 
 screen = pygame.display.set_mode(GAME_SIZE, pygame.NOFRAME)
 window = screen.get_rect()
