@@ -208,7 +208,6 @@ class Block:
 
 block = Block(5, 0, random.choice(SHAPES))
 
-
 screen = pygame.display.set_mode(GAME_SIZE, pygame.NOFRAME)
 window = screen.get_rect()
 clock = pygame.time.Clock()
@@ -227,6 +226,7 @@ def draw_grid():
     for i in range(21):
         y = BLOCK_SIZE * i
         pygame.draw.line(screen, GRID_COLOR, (0, y), (GRID_SIZE[0], y))
+
 
 while True:
     for event in pygame.event.get():
