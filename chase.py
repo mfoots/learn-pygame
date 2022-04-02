@@ -1,14 +1,14 @@
 import pygame, random
 pygame.init()
 
-BLOCKSIZE = 40
+BLOCKSIZE = 30
 BACKGROUND = (50, 50, 50)
 PLAYER_COLOR = (100, 200, 50)
 TARGET_COLOR = (200, 0, 50)
 FPS = 10
 SPEED = BLOCKSIZE
 
-screen = pygame.display.set_mode((BLOCKSIZE*20, BLOCKSIZE*15), pygame.NOFRAME)
+screen = pygame.display.set_mode((BLOCKSIZE*20, BLOCKSIZE*15))
 window = screen.get_rect()
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
@@ -32,6 +32,9 @@ class Block(pygame.sprite.Sprite):
         self.rect.y = BLOCKSIZE * random.randint(1, window.height//BLOCKSIZE - 1)
 
 class Player(Block):
+    def __init__(self, color):
+        super().__init__(color)
+        self.score = Scoreboard()
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -56,6 +59,9 @@ class Player(Block):
 
         self.rect.move_ip(self.vector)
 
+        if pygame.sprite.collide_rect(self, target):
+            self.score.change(1)
+
 class Target(Block):
     
     def update(self):
@@ -63,8 +69,27 @@ class Target(Block):
             self.set_location()
 
 
-player = Player(PLAYER_COLOR)
+class Scoreboard(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.font = pygame.font.Font(None, 30)
+        self.score = 0
+        self.add(all_sprites)
+        self.display()
+
+    def change(self, amount):
+        self.score += amount
+
+    def display(self):
+        self.image = self.font.render(f"{self.score}", True, (255,255,255))
+        self.rect = self.image.get_rect(midtop=(window.centerx, 10))
+
+    def update(self):
+        self.display()
+
+
 target = Target(TARGET_COLOR)
+player = Player(PLAYER_COLOR)
 
 def draw_grid():
     # vertical lines
@@ -79,7 +104,8 @@ def draw_grid():
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN\
+        and event.key == pygame.K_ESCAPE:
             pygame.quit()
             quit()
 

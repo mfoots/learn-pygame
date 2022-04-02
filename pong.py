@@ -5,7 +5,7 @@ FPS = 60
 BACKGROUND = (0, 0, 0)
 FOREGROUND = (255, 255, 255)
 
-screen = pygame.display.set_mode((800,600), pygame.NOFRAME)
+screen = pygame.display.set_mode((800,600))
 window = screen.get_rect()
 clock = pygame.time.Clock()
 # ping = pygame.mixer.Sound(os.path.join('assets', 'pong_high.wav'))
