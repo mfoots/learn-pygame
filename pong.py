@@ -8,9 +8,8 @@ FOREGROUND = (255, 255, 255)
 screen = pygame.display.set_mode((800,600))
 window = screen.get_rect()
 clock = pygame.time.Clock()
-# ping = pygame.mixer.Sound(os.path.join('assets', 'pong_high.wav'))
-# pong = pygame.mixer.Sound(os.path.join('assets', 'pong_low.wav'))
-# oops = pygame.mixer.Sound(os.path.join('assets', 'ohno.wav'))
+ping = pygame.mixer.Sound(os.path.join('assets', 'pong_high.wav'))
+pong = pygame.mixer.Sound(os.path.join('assets', 'pong_low.wav'))
 
 all_sprites = pygame.sprite.Group()
 paddles = pygame.sprite.Group()
@@ -34,29 +33,27 @@ class Ball(pygame.sprite.Sprite):
 
         if self.rect.top <= 2:
             self.vector.y = -self.vector.y
-            # ping.play()
+            ping.play()
 
         if self.rect.y >= window.height - self.rect.height :
             self.vector.y = -self.vector.y
-            # ping.play()
+            ping.play()
 
         if self.rect.left < 0:
             self.rect.center = window.center
             self.vector = self.set()
             player.score.increase(1)
-            # oops.play()
 
         if self.rect.right > window.right:
             self.rect.center = window.center
             self.vector = self.set()
             computer.score.increase(1)
-            # oops.play()
 
         if pygame.sprite.spritecollide(self, paddles, False):
             self.vector = -self.vector
             self.vector.y = random.choice([self.vector.y, -self.vector.y])
             self.vector = self.vector * 1.1
-            # pong.play()
+            pong.play()
 
 class Paddle(pygame.sprite.Sprite):
     def __init__(self, x, y):
