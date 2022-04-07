@@ -11,7 +11,7 @@ class Ship(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # store the original image
-        self.original_image = pygame.image.load('media/fighter.png').convert_alpha()
+        self.original_image = pygame.image.load('assets/fighter.png').convert_alpha()
         self.image = self.original_image
         self.rect = self.image.get_rect(center=window.center)
         self.speed = 0

@@ -7,6 +7,7 @@ GRID_SIZE = (BLOCK_SIZE*10, BLOCK_SIZE*20)
 GAME_SIZE = (GRID_SIZE[0] + 300, GRID_SIZE[1] + 1)
 BACKGROUND = (25, 25, 25)
 GRID_COLOR = (100, 100, 100)
+BLANK = '.'
 
 COLORS = [
     (0, 255, 255),    # I - Cyan
@@ -184,10 +185,8 @@ class Block:
         self.color = COLORS[SHAPES.index(shape)]
         self.rotation = 0
 
-    
-        
 
-block = Block(5, 0, random.choice(SHAPES))
+block = Block(1, 1, random.choice(SHAPES))
 
 screen = pygame.display.set_mode(GAME_SIZE, pygame.NOFRAME)
 window = screen.get_rect()
