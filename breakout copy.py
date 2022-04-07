@@ -225,7 +225,7 @@ class Game:
                 if self.score > self.highscore:
                     self.save_highscore()
                     self.highscore = self.load_highscore()
-                soundtrack.stop()
+                # soundtrack.stop()
                 self.display_game_over()
 
             self.display_stats()
