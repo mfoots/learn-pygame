@@ -34,6 +34,7 @@ class Paddle(pygame.sprite.Sprite):
         self.image.fill(WHITE)
         self.rect = self.image.get_rect(center = (window.centerx, window.height - 20))
         self.vector = pygame.Vector2(0,0)
+        self.score = Scoreboard(all_sprites)
 
     def update(self):
         self.rect.move_ip(self.vector)
@@ -44,7 +45,7 @@ class Paddle(pygame.sprite.Sprite):
         elif keys[pygame.K_RIGHT]:
             self.vector.x = 10
         else:
-            self.vector = pygame.Vector2(0,0)
+            self.vector.x = 0
 
         if self.rect.left < 0:
             self.rect.left = 0
@@ -63,33 +64,42 @@ class Ball(pygame.sprite.Sprite):
         self.set_vector()
 
     def set_vector(self):
-        x = random.choice([random.randint(-7, -5), random.randint(5, 7)])
-        if self.vector.y >= 0:
-            y = random.randint(-5, -3)
-        else:
-            y = random.randint(3, 5)
+        x = random.choice([random.randint(-6, -4), random.randint(4, 6)])
+        if self.vector.y > 0:
+            y = random.randint(-6, -4)
+        elif self.vector.y <= 0:
+            y = random.randint(4, 6)
 
         self.vector = pygame.Vector2(x, y)
 
     def update(self):
-        self.rect.move_ip(self.vector)
+        hits = pygame.sprite.spritecollide(self, brick_sprites, False)  # correction
+        if hits:  # correction
+            for hit in hits:  # correction
+                player.score.change()
+                hit.kill()
+            self.set_vector()
         
-        if self.rect.left < 0 or self.rect.right > window.width:
+        if self.rect.left <= 0:
+            self.rect.left = 2   # correction
             self.vector.x *= -1
-        if self.rect.top < 0:
+        if self.rect.right >= window.width:
+            self.rect.right = window.width - 2  # correction
+            self.vector.x *= -1
+        if self.rect.top <= 0:
+            self.rect.top = 2  # correction
             self.set_vector()
 
         if pygame.sprite.collide_rect(self, player):
-            self.rect.y -= 2
-            self.set_vector()
-            if player.vector.x > 0:
-                self.vector.x = abs(self.vector.x)
-            else:
-                self.vector.x = -abs(self.vector.x)
+            if self.rect.bottom <= player.rect.bottom:
+                self.rect.bottom = player.rect.top - 2  # correction
+                self.set_vector()
+                if player.vector.x > 0:
+                    self.vector.x = abs(self.vector.x)
+                else:
+                    self.vector.x = -abs(self.vector.x)
 
-
-        if pygame.sprite.spritecollide(self, brick_sprites, True):
-            self.set_vector()
+        self.rect.move_ip(self.vector)
 
 
 class Brick(pygame.sprite.Sprite):
@@ -102,11 +112,28 @@ class Brick(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+class Scoreboard(pygame.sprite.Sprite):
+    def __init__(self, *groups):
+        super().__init__(*groups)
+        self.score = 0
+        self.font = pygame.font.Font(None, 30)
+        self.render_text()
+        
+    def change(self, n=1):
+        self.score += n
+        self.render_text()
+
+    def render_text(self):
+        self.image = self.font.render(f"Score: {self.score}", True, WHITE)
+        self.rect = self.image.get_rect(midleft=(20, 20))
+
 player = Paddle(all_sprites)
 ball = Ball(all_sprites)
 
 color_index = 0
-for row in range(BRICK_HEIGHT, BRICK_HEIGHT * 10 - BRICK_HEIGHT, BRICK_HEIGHT):
+start = BRICK_HEIGHT + 30
+end = start + (BRICK_HEIGHT * 9 - BRICK_HEIGHT)
+for row in range(start, end, BRICK_HEIGHT):
     for column in range(0, BRICK_WIDTH * window.width//BRICK_WIDTH, BRICK_WIDTH):
         Brick(column, row, BRICK_COLORS[color_index], all_sprites, brick_sprites)
     if row % 10 == 0 and color_index < len(BRICK_COLORS) - 1:
@@ -122,7 +149,7 @@ while True:
                 terminate()
 
     all_sprites.update()
-    screen.fill((0, 0, 0))
+    screen.fill(BLACK)
     all_sprites.draw(screen)
     pygame.display.update()
     clock.tick(FPS)
