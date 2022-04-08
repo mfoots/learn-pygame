@@ -1,8 +1,6 @@
 import random
 import pygame
 
-# CONSTANTS
-
 BRICK_WIDTH = 64
 BRICK_HEIGHT = 15
 FPS = 60
@@ -14,7 +12,6 @@ ORANGE = (255, 100, 0)
 YELLOW = (255, 255, 0)
 BRICK_COLORS = [RED, ORANGE, GREEN, YELLOW]
 
-# initialize stuff
 pygame.init()
 screen = pygame.display.set_mode((640,480))
 window = screen.get_rect()
@@ -74,8 +71,8 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self):
         hits = pygame.sprite.spritecollide(self, brick_sprites, False)  # correction
-        if hits:  # correction
-            for hit in hits:  # correction
+        if hits:
+            for hit in hits:  
                 player.score.change()
                 hit.kill()
             self.set_vector()
@@ -91,7 +88,7 @@ class Ball(pygame.sprite.Sprite):
             self.set_vector()
 
         if pygame.sprite.collide_rect(self, player):
-            if self.rect.bottom <= player.rect.bottom:
+            if self.rect.bottom >= player.rect.bottom:  # correction
                 self.rect.bottom = player.rect.top - 2  # correction
                 self.set_vector()
                 if player.vector.x > 0:
@@ -127,17 +124,19 @@ class Scoreboard(pygame.sprite.Sprite):
         self.image = self.font.render(f"Score: {self.score}", True, WHITE)
         self.rect = self.image.get_rect(midleft=(20, 20))
 
+def generate_blocks():
+    color_index = 0
+    start = BRICK_HEIGHT + 30
+    end = start + (BRICK_HEIGHT * 9 - BRICK_HEIGHT)
+    for row in range(start, end, BRICK_HEIGHT):
+        for column in range(0, BRICK_WIDTH * window.width//BRICK_WIDTH, BRICK_WIDTH):
+            Brick(column, row, BRICK_COLORS[color_index], all_sprites, brick_sprites)
+        if row % 10 == 0 and color_index < len(BRICK_COLORS) - 1:
+            color_index += 1
+
 player = Paddle(all_sprites)
 ball = Ball(all_sprites)
-
-color_index = 0
-start = BRICK_HEIGHT + 30
-end = start + (BRICK_HEIGHT * 9 - BRICK_HEIGHT)
-for row in range(start, end, BRICK_HEIGHT):
-    for column in range(0, BRICK_WIDTH * window.width//BRICK_WIDTH, BRICK_WIDTH):
-        Brick(column, row, BRICK_COLORS[color_index], all_sprites, brick_sprites)
-    if row % 10 == 0 and color_index < len(BRICK_COLORS) - 1:
-        color_index += 1
+generate_blocks()
 
 
 while True:
