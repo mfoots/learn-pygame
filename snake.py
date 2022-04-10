@@ -11,8 +11,9 @@ SNAKE_COLOR = (0, 255, 0)
 GRID_COLOR = (128, 128, 128)
 
 class Cube():
-    def __init__(self, start, dirnx=1, dirny=0, color=APPLE_COLOR):
-        self.position = start
+    def __init__(self, position, dirnx=1, dirny=0, color=SNAKE_COLOR):
+        self.position = position
+        
         self.dirnx = dirnx
         self.dirny = dirny
         self.color = color
@@ -36,9 +37,9 @@ class Snake():
     body = []
     turns = {}
 
-    def __init__(self, color, position):
+    def __init__(self, position, color):
         self.color = color
-        self.head = Cube(position, color=SNAKE_COLOR)
+        self.head = Cube(position)
         self.body.append(self.head)
         self.dirnx = 0
         self.dirny = 1
@@ -72,6 +73,7 @@ class Snake():
 
         for index, cube in enumerate(self.body):
             position = cube.position[:]
+            
             if position in self.turns:
                 turn = self.turns[position]
                 cube.move(turn[0], turn[1])
@@ -85,7 +87,7 @@ class Snake():
                 elif cube.dirny == 1 and cube.position[1] >= ROWS - 1:
                     cube.position = (cube.position[0], ROWS - 1)
                 elif cube.dirny == -1 and cube.position[1] <= 0:
-                    cube.position = (cube.position[0]. ROWS - 1)
+                    cube.position = (cube.position[0], ROWS - 1)
                 else:
                     cube.move(cube.dirnx, cube.dirny)
         
@@ -102,13 +104,13 @@ class Snake():
         dx, dy = tail.dirnx, tail.dirny
 
         if dx == 1 and dy == 0:
-            self.body.append(Cube((tail.position[0] - 1), tail.position[1]))
+            self.body.append(Cube((tail.position[0] - 1, tail.position[1])))
         elif dx == -1 and dy == 0:
-            self.body.append(Cube((tail.position[0] + 1), tail.position[1]))
+            self.body.append(Cube((tail.position[0] + 1, tail.position[1])))
         elif dx == 0 and dy == 1:
-            self.body.append(Cube((tail.position[0]), tail.position[1] - 1))
+            self.body.append(Cube((tail.position[0], tail.position[1] - 1)))
         elif dx == 0 and dy == -1:
-            self.body.append(Cube((tail.position[0]), tail.position[1] + 1))
+            self.body.append(Cube((tail.position[0], tail.position[1] + 1)))
 
         self.body[-1].dirnx = dx
         self.body[-1].dirny = dy
@@ -124,6 +126,7 @@ def random_location(snake):
             continue
         else:
             break
+
     return (x, y)
 
 def draw_grid(surface):
@@ -145,7 +148,7 @@ def main():
     window = screen.get_rect()
     clock = pygame.time.Clock()
 
-    snake = Snake(SNAKE_COLOR, (10, 10))
+    snake = Snake((10, 10), color=SNAKE_COLOR)
     apple = Cube(random_location(snake), color=APPLE_COLOR)
 
     while True:
